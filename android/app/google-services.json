@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "992545342972",
+    "firebase_url": "https://portal-5bd26-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "portal-5bd26",
+    "storage_bucket": "portal-5bd26.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:992545342972:android:1722fb0e758e70768b5e79",
+        "android_client_info": {
+          "package_name": "com.example.portal"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQ-8RV0nYj3IzaNaQGk3g93fFajt9_R1c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
