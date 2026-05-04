@@ -157,14 +157,7 @@ class _LoginScreenState extends State<LoginScreen>
                         icon: Icons.lock_outline,
                         isPassword: true,
                       ),
-                      const SizedBox(height: 12),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: TextButton(
-                          onPressed: () {},
-                          child: const Text('Forgot Password?', style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.w600)),
-                        ),
-                      ),
+
                       const SizedBox(height: 20),
                       SizedBox(
                         width: double.infinity,
