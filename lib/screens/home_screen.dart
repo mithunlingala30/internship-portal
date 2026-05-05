@@ -145,14 +145,14 @@ class HomeScreen extends StatelessWidget {
                                                 ],
                                               ),
                                             ),
-                                            IconButton(
-                                              onPressed: onMenuPressed,
-                                              icon: const Icon(
-                                                Icons.menu_rounded,
-                                                color: Colors.white,
-                                                size: 28,
-                                              ),
-                                            ),
+                                                IconButton(
+                                                  onPressed: onMenuPressed,
+                                                  icon: const Icon(
+                                                    Icons.menu_rounded,
+                                                    color: Colors.white,
+                                                    size: 28,
+                                                  ),
+                                                ),
                                           ],
                                         ),
                                         const SizedBox(height: 20),

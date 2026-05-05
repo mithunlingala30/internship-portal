@@ -221,8 +221,7 @@ class _MainShellState extends State<MainShell> {
           Container(
             height: 60,
             padding: const EdgeInsets.symmetric(horizontal: 18),
-            child: Stack(
-              alignment: Alignment.centerLeft,
+            child: Row(
               children: [
                 Container(
                   width: 44,
@@ -251,37 +250,39 @@ class _MainShellState extends State<MainShell> {
                     ),
                   ),
                 ),
-                Positioned(
-                  left: 58,
-                  child: AnimatedOpacity(
-                    duration: const Duration(milliseconds: 250),
-                    opacity: isExpanded ? 1.0 : 0.0,
-                    child: const Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          'MEVONICS',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w900,
-                            color: AppColors.textPrimary,
-                            letterSpacing: 1.2,
+                if (isExpanded) ...[
+                  const SizedBox(width: 14),
+                  Expanded(
+                    child: AnimatedOpacity(
+                      duration: const Duration(milliseconds: 300),
+                      opacity: 1.0,
+                      child: const Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            'MEVONICS',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w900,
+                              color: AppColors.textPrimary,
+                              letterSpacing: 1.2,
+                            ),
                           ),
-                        ),
-                        Text(
-                          'LMS PORTAL',
-                          style: TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.textLight,
-                            letterSpacing: 0.5,
+                          Text(
+                            'LMS PORTAL',
+                            style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.textLight,
+                              letterSpacing: 0.5,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ),
+                ],
               ],
             ),
           ),
