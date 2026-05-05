@@ -69,62 +69,66 @@ class ProgressScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      // Content
-                      SingleChildScrollView(
-                        physics: const NeverScrollableScrollPhysics(),
-                        child: Padding(
-                          padding: EdgeInsets.fromLTRB(
-                            20,
-                            MediaQuery.of(context).padding.top + 45,
-                            20,
-                            20,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Text(
-                                'My Learning Progress',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 26,
-                                    fontWeight: FontWeight.w800,
-                                    letterSpacing: -0.5),
+                      Center(
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(maxWidth: 1000),
+                          child: SingleChildScrollView(
+                            physics: const NeverScrollableScrollPhysics(),
+                            child: Padding(
+                              padding: EdgeInsets.fromLTRB(
+                                20,
+                                MediaQuery.of(context).padding.top + 45,
+                                20,
+                                20,
                               ),
-                              const SizedBox(height: 4),
-                              Text(
-                                'Real-time attendance & course stats',
-                                style: TextStyle(
-                                    color: Colors.white.withValues(alpha: 0.9),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400),
-                              ),
-                              const SizedBox(height: 20),
-                              Row(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  _HeaderStat(
-                                    label: 'Enrolled',
-                                    value: '${enrolledCourses.length}',
-                                    icon: Icons.menu_book_rounded,
-                                    color: Colors.blue.shade300,
+                                  const Text(
+                                    'My Learning Progress',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 26,
+                                        fontWeight: FontWeight.w800,
+                                        letterSpacing: -0.5),
                                   ),
-                                  const SizedBox(width: 12),
-                                  _HeaderStat(
-                                    label: 'Ongoing',
-                                    value: '${enrolledCourses.where((c) => c.status == 'ongoing').length}',
-                                    icon: Icons.play_circle_rounded,
-                                    color: Colors.orange.shade300,
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    'Real-time attendance & course stats',
+                                    style: TextStyle(
+                                        color: Colors.white.withValues(alpha: 0.9),
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400),
                                   ),
-                                  const SizedBox(width: 12),
-                                  _HeaderStat(
-                                    label: 'Complete',
-                                    value: '${enrolledCourses.where((c) => c.status == 'finished').length}',
-                                    icon: Icons.check_circle_rounded,
-                                    color: Colors.green.shade300,
+                                  const SizedBox(height: 20),
+                                  Row(
+                                    children: [
+                                      _HeaderStat(
+                                        label: 'Enrolled',
+                                        value: '${enrolledCourses.length}',
+                                        icon: Icons.menu_book_rounded,
+                                        color: Colors.blue.shade300,
+                                      ),
+                                      const SizedBox(width: 12),
+                                      _HeaderStat(
+                                        label: 'Ongoing',
+                                        value: '${enrolledCourses.where((c) => c.status == 'ongoing').length}',
+                                        icon: Icons.play_circle_rounded,
+                                        color: Colors.orange.shade300,
+                                      ),
+                                      const SizedBox(width: 12),
+                                      _HeaderStat(
+                                        label: 'Complete',
+                                        value: '${enrolledCourses.where((c) => c.status == 'finished').length}',
+                                        icon: Icons.check_circle_rounded,
+                                        color: Colors.green.shade300,
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
-                            ],
+                            ),
                           ),
                         ),
                       ),
@@ -146,18 +150,23 @@ class ProgressScreen extends StatelessWidget {
                       ],
                     ),
                   )
-                : ListView.separated(
-                    padding: const EdgeInsets.fromLTRB(20, 16, 20, 80),
-                    itemCount: enrolledCourses.length,
-                    separatorBuilder: (_, __) => const SizedBox(height: 14),
-                    itemBuilder: (context, index) {
-                      final course = enrolledCourses[index];
-                      return _AttendanceCard(
-                        course: course,
-                        uid: uid,
-                        db: db,
-                      );
-                    },
+                : Center(
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 1000),
+                      child: ListView.separated(
+                        padding: const EdgeInsets.fromLTRB(20, 16, 20, 80),
+                        itemCount: enrolledCourses.length,
+                        separatorBuilder: (_, __) => const SizedBox(height: 14),
+                        itemBuilder: (context, index) {
+                          final course = enrolledCourses[index];
+                          return _AttendanceCard(
+                            course: course,
+                            uid: uid,
+                            db: db,
+                          );
+                        },
+                      ),
+                    ),
                   ),
           ),
         );

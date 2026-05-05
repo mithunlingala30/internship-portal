@@ -298,111 +298,136 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                     backgroundColor: AppColors.primary,
                     iconTheme: const IconThemeData(color: Colors.white),
                     flexibleSpace: FlexibleSpaceBar(
-                      background: Container(
-                        padding: const EdgeInsets.fromLTRB(20, 80, 20, 20),
-                        decoration: BoxDecoration(
-                          color: AppColors.primary,
-                          image: const DecorationImage(
-                            image: AssetImage('master_4k.png'),
-                            fit: BoxFit.cover,
-                            opacity: 0.6,
-                          ),
-                          gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [AppColors.primary, AppColors.primary.withValues(alpha: 0.8)],
-                          ),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                              decoration: BoxDecoration(
-                                color: Colors.white.withValues(alpha: 0.25),
-                                borderRadius: BorderRadius.circular(6),
+                      background: Stack(
+                        fit: StackFit.expand,
+                        children: [
+                          // Background Image
+                          _getImagePath(course.title, course.category) == 'pcb_custom'
+                              ? Container(color: AppColors.primary)
+                              : Image.asset(
+                                  _getImagePath(course.title, course.category),
+                                  fit: BoxFit.cover,
+                                ),
+                          // Dark Overlay Gradient
+                          Container(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                  Colors.black.withValues(alpha: 0.3),
+                                  Colors.black.withValues(alpha: 0.8),
+                                ],
                               ),
-                              child: Text(course.category, style: const TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w800)),
                             ),
-                            const SizedBox(height: 10),
-                            Text(course.title, style: const TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.w800, height: 1.2)),
-                            const SizedBox(height: 12),
-                            Wrap(
-                              spacing: 16,
-                              runSpacing: 8,
-                              crossAxisAlignment: WrapCrossAlignment.center,
-                              children: [
-                                Row(
-                                  mainAxisSize: MainAxisSize.min,
+                          ),
+                          // Content
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(20, 80, 20, 20),
+                            child: Center(
+                              child: ConstrainedBox(
+                                constraints: const BoxConstraints(maxWidth: 1000),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
-                                    const Icon(Icons.schedule_outlined, color: Colors.white60, size: 13),
-                                    const SizedBox(width: 4),
-                                    Text(course.duration, style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w600)),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                                      decoration: BoxDecoration(
+                                        color: AppColors.primary.withValues(alpha: 0.9),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      child: Text(
+                                        course.category.toUpperCase(), 
+                                        style: const TextStyle(
+                                          color: Colors.white, 
+                                          fontSize: 9, 
+                                          fontWeight: FontWeight.w900,
+                                          letterSpacing: 0.5,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 12),
+                                    Text(
+                                      course.title, 
+                                      style: const TextStyle(
+                                        color: Colors.white, 
+                                        fontSize: 28, 
+                                        fontWeight: FontWeight.w900, 
+                                        height: 1.1,
+                                        letterSpacing: -0.5,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 16),
+                                    Wrap(
+                                      spacing: 20,
+                                      runSpacing: 10,
+                                      crossAxisAlignment: WrapCrossAlignment.center,
+                                      children: [
+                                        _buildHeaderStat(Icons.timer_outlined, course.duration),
+                                        _buildHeaderStat(Icons.people_alt_outlined, '${course.enrolledStudentIds.length} Enrolled'),
+                                        _buildHeaderStat(Icons.layers_outlined, course.difficulty),
+                                      ],
+                                    ),
                                   ],
                                 ),
-                                Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    const Icon(Icons.people_outline, color: Colors.white60, size: 13),
-                                    const SizedBox(width: 4),
-                                    Text('${course.enrolledStudentIds.length} enrolled', style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w600)),
-                                  ],
-                                ),
-                              ],
+                              ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
                   SliverToBoxAdapter(
                     child: Padding(
                       padding: const EdgeInsets.all(20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // Instructor
-                          Row(
+                      child: Center(
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(maxWidth: 1000),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Container(
-                                width: 40,
-                                height: 40,
-                                decoration: BoxDecoration(
-                                  color: AppColors.primaryLight,
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    course.instructor.length >= 2 ? course.instructor.substring(0, 2).toUpperCase() : 'ME',
-                                    style: const TextStyle(color: AppColors.primary, fontWeight: FontWeight.w700, fontSize: 14),
+                              // Instructor
+                              Row(
+                                children: [
+                                  Container(
+                                    width: 40,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                      color: AppColors.primaryLight,
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        course.instructor.length >= 2 ? course.instructor.substring(0, 2).toUpperCase() : 'ME',
+                                        style: const TextStyle(color: AppColors.primary, fontWeight: FontWeight.w700, fontSize: 14),
+                                      ),
+                                    ),
                                   ),
-                                ),
+                                  const SizedBox(width: 10),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        const Text('Instructor', style: AppTextStyles.caption),
+                                        Text(course.instructor, style: AppTextStyles.label, maxLines: 1, overflow: TextOverflow.ellipsis),
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                                    decoration: BoxDecoration(
+                                      color: _difficultyColor(course.difficulty).withValues(alpha: 0.12),
+                                      borderRadius: BorderRadius.circular(6),
+                                    ),
+                                    child: Text(
+                                      course.difficulty,
+                                      style: TextStyle(color: _difficultyColor(course.difficulty), fontWeight: FontWeight.w600, fontSize: 12),
+                                    ),
+                                  ),
+                                ],
                               ),
-                              const SizedBox(width: 10),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Text('Instructor', style: AppTextStyles.caption),
-                                    Text(course.instructor, style: AppTextStyles.label, maxLines: 1, overflow: TextOverflow.ellipsis),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                                decoration: BoxDecoration(
-                                  color: _difficultyColor(course.difficulty).withValues(alpha: 0.12),
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                child: Text(
-                                  course.difficulty,
-                                  style: TextStyle(color: _difficultyColor(course.difficulty), fontWeight: FontWeight.w600, fontSize: 12),
-                                ),
-                              ),
-                            ],
-                          ),
 
                           // Mentor Actions
                           if (isCourseMentor) ...[
@@ -572,6 +597,8 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                       ),
                     ),
                   ),
+                ),
+              ),
                 ],
               ),
             );
@@ -599,6 +626,44 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
         ),
       ),
     );
+  }
+
+  Widget _buildHeaderStat(IconData icon, String label) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(icon, color: Colors.white70, size: 14),
+        const SizedBox(width: 6),
+        Text(
+          label,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 13,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ],
+    );
+  }
+
+  String _getImagePath(String title, String category) {
+    final t = '$title $category'.toLowerCase();
+    if (t.contains('java') && !t.contains('javascript')) return 'assets/java_logo.png';
+    if (t.contains('python')) return 'assets/python_logo.png';
+    if (t.contains('embedded') || t.contains('iot')) return 'assets/iot_embedded_logo.png';
+    if (t.contains('ai') && t.contains('web')) return 'assets/ai_web_dev_logo.png';
+    if (t.contains('ai') && t.contains('ml')) return 'assets/ai_ml_logo.png';
+    if (t.contains('ai')) return 'assets/ai_logo.png';
+    if (t.contains('web') || t.contains('javascript') || t.contains('fullstack') || t.contains('full-stack') ||
+        t.contains('frontend') || t.contains('front-end') || t.contains('backend') || t.contains('back-end') ||
+        t.contains('react') || t.contains('node') || t.contains('mern') || t.contains('mean') || t.contains('html') || t.contains('css')) {
+      return 'assets/web_dev_logo.png';
+    }
+    if (t.contains('pcb') || t.contains('hardware') || t.contains('circuit') || t.contains('schematic') || t.contains('vlsi')) {
+      return 'pcb_custom'; 
+    }
+    if (RegExp(r'\bc\b').hasMatch(t)) return 'assets/c_logo.png';
+    return 'assets/default_logo.png';
   }
 
   Color _difficultyColor(String d) {

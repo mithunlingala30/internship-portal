@@ -10,17 +10,20 @@ class CourseCardHorizontal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isFinished = course.status == 'finished';
+    final bool isOngoing = course.status == 'ongoing';
+
     return Container(
-      width: 220,
+      width: 240,
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
+            color: Colors.black.withValues(alpha: 0.06),
+            blurRadius: 20,
+            offset: const Offset(0, 8),
           ),
         ],
       ),
@@ -31,108 +34,134 @@ class CourseCardHorizontal extends StatelessWidget {
           Stack(
             children: [
               _getImagePath(course.title, course.category) == 'pcb_custom'
-                ? const PCBIcon(size: 100)
+                ? const PCBIcon(size: 130)
                 : Image.asset(
                     _getImagePath(course.title, course.category),
-                    height: 100,
+                    height: 130,
                     width: double.infinity,
                     fit: BoxFit.cover,
                   ),
+              // Category Badge (Top Left)
               Positioned(
-                top: 10,
-                left: 10,
-                child: Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: Colors.black.withValues(alpha: 0.4),
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      child: Text(
-                        course.category,
-                        style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
-                      ),
+                top: 12,
+                left: 12,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withValues(alpha: 0.5),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text(
+                    course.category.toUpperCase(),
+                    style: const TextStyle(
+                      color: Colors.white, 
+                      fontSize: 8, 
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: 0.5,
                     ),
-                    const SizedBox(width: 6),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: AppColors.secondary.withValues(alpha: 0.9),
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      child: Text(
-                        course.courseCode,
-                        style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
-              if (course.status == 'finished')
+              // Status Badge (Top Right)
+              if (isFinished || isOngoing)
                 Positioned(
-                  top: 10,
-                  right: 10,
+                  top: 12,
+                  right: 12,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                     decoration: BoxDecoration(
-                      color: AppColors.success.withValues(alpha: 0.9),
-                      borderRadius: BorderRadius.circular(6),
+                      color: isFinished 
+                          ? AppColors.success.withValues(alpha: 0.9)
+                          : AppColors.primary.withValues(alpha: 0.9),
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: (isFinished ? AppColors.success : AppColors.primary).withValues(alpha: 0.3),
+                          blurRadius: 8,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
                     ),
-                    child: const Text('Finished', style: TextStyle(color: Colors.white, fontSize: 9, fontWeight: FontWeight.bold)),
-                  ),
-                )
-              else if (course.status == 'ongoing')
-                Positioned(
-                  top: 10,
-                  right: 10,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                    decoration: BoxDecoration(
-                      color: AppColors.info.withValues(alpha: 0.9),
-                      borderRadius: BorderRadius.circular(6),
+                    child: Text(
+                      isFinished ? 'COMPLETED' : 'ONGOING', 
+                      style: const TextStyle(color: Colors.white, fontSize: 8, fontWeight: FontWeight.w900, letterSpacing: 0.5)
                     ),
-                    child: const Text('Ongoing', style: TextStyle(color: Colors.white, fontSize: 9, fontWeight: FontWeight.bold)),
                   ),
                 ),
+              // Course Code (Bottom Right of image)
+              Positioned(
+                bottom: 12,
+                right: 12,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.9),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    course.courseCode,
+                    style: const TextStyle(color: AppColors.textPrimary, fontSize: 9, fontWeight: FontWeight.w800),
+                  ),
+                ),
+              ),
             ],
           ),
           Padding(
-            padding: const EdgeInsets.all(12),
+            padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   course.title,
-                  style: const TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 14, height: 1.2),
+                  style: const TextStyle(
+                    color: AppColors.textPrimary, 
+                    fontWeight: FontWeight.w800, 
+                    fontSize: 15, 
+                    height: 1.2,
+                    letterSpacing: -0.2,
+                  ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 12),
                 Row(
                   children: [
-                    const Icon(Icons.person_outline_rounded, size: 12, color: AppColors.textLight),
-                    const SizedBox(width: 4),
+                    Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        color: AppColors.primary.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: const Icon(Icons.person_rounded, size: 12, color: AppColors.primary),
+                    ),
+                    const SizedBox(width: 8),
                     Expanded(
                       child: Text(
                         course.instructor,
-                        style: const TextStyle(color: AppColors.textSecondary, fontSize: 10, fontWeight: FontWeight.w600),
+                        style: const TextStyle(color: AppColors.textSecondary, fontSize: 11, fontWeight: FontWeight.w600),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: 8),
                 Row(
                   children: [
-                    const Icon(Icons.calendar_today_outlined, size: 12, color: AppColors.textLight),
-                    const SizedBox(width: 4),
+                    Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        color: AppColors.textLight.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: const Icon(Icons.access_time_rounded, size: 12, color: AppColors.textLight),
+                    ),
+                    const SizedBox(width: 8),
                     Text(
                       course.createdAt != null 
                         ? '${course.createdAt!.day}/${course.createdAt!.month}/${course.createdAt!.year}'
                         : 'Recently',
-                      style: const TextStyle(color: AppColors.textSecondary, fontSize: 10, fontWeight: FontWeight.w500),
+                      style: const TextStyle(color: AppColors.textLight, fontSize: 11, fontWeight: FontWeight.w500),
                     ),
                   ],
                 ),

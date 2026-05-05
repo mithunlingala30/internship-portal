@@ -327,8 +327,8 @@ class _CoursesScreenState extends State<CoursesScreen> {
                           background: Container(
                             padding: EdgeInsets.only(
                               top: MediaQuery.of(context).padding.top + 20,
-                              left: 20,
-                              right: 20,
+                              left: MediaQuery.of(context).size.width > 800 ? 40 : 20,
+                              right: MediaQuery.of(context).size.width > 800 ? 40 : 20,
                             ),
                             decoration: const BoxDecoration(
                               gradient: LinearGradient(
@@ -533,20 +533,25 @@ class _CoursesScreenState extends State<CoursesScreen> {
       );
     }
 
-    return ListView.separated(
-      padding: const EdgeInsets.fromLTRB(20, 16, 20, 80),
-      itemCount: filtered.length,
-      separatorBuilder: (_, __) => const SizedBox(height: 14),
-      itemBuilder: (context, index) {
-        return GestureDetector(
-          onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (_) => CourseDetailScreen(course: filtered[index])),
-          ),
-          child: CourseCardVertical(course: filtered[index]),
-        );
-      },
+    return Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 1000),
+        child: ListView.separated(
+          padding: const EdgeInsets.fromLTRB(20, 16, 20, 80),
+          itemCount: filtered.length,
+          separatorBuilder: (_, __) => const SizedBox(height: 14),
+          itemBuilder: (context, index) {
+            return GestureDetector(
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (_) => CourseDetailScreen(course: filtered[index])),
+              ),
+              child: CourseCardVertical(course: filtered[index]),
+            );
+          },
+        ),
+      ),
     );
   }
 }
