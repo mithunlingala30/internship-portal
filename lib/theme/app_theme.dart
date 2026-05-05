@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AppColors {
   // ── Core palette: Vibrant Sunrise/Sunset (matches icon) ───────────────
@@ -155,7 +156,6 @@ class AppTheme {
   static ThemeData get lightTheme {
     return ThemeData(
       useMaterial3: true,
-      fontFamily: 'Poppins',
       colorScheme: ColorScheme.fromSeed(
         seedColor: AppColors.primary,
         primary: AppColors.primary,
@@ -167,14 +167,16 @@ class AppTheme {
         onSurface: AppColors.textPrimary,
       ),
       scaffoldBackgroundColor: AppColors.background,
-      textTheme: const TextTheme(
-        displayLarge: AppTextStyles.heading1,
-        displayMedium: AppTextStyles.heading2,
-        displaySmall: AppTextStyles.heading3,
-        bodyLarge: AppTextStyles.body,
-        bodyMedium: AppTextStyles.bodySecondary,
-        bodySmall: AppTextStyles.bodySmall,
-        labelLarge: AppTextStyles.label,
+      textTheme: GoogleFonts.poppinsTextTheme(
+        const TextTheme(
+          displayLarge: AppTextStyles.heading1,
+          displayMedium: AppTextStyles.heading2,
+          displaySmall: AppTextStyles.heading3,
+          bodyLarge: AppTextStyles.body,
+          bodyMedium: AppTextStyles.bodySecondary,
+          bodySmall: AppTextStyles.bodySmall,
+          labelLarge: AppTextStyles.label,
+        ),
       ),
 
       // ── AppBar ───────────────────────────────────────────────

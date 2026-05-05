@@ -47,7 +47,15 @@ class PushNotificationService {
       // Get FCM token and save to Firestore
       // On web without a VAPID key this may return null — handle gracefully
       try {
-        String? token = await _fcm.getToken();
+        String? token;
+        if (kIsWeb) {
+          // IMPORTANT: Replace 'YOUR_WEB_VAPID_KEY_HERE' with your actual key from 
+          // Firebase Console -> Project Settings -> Cloud Messaging -> Web configuration
+          token = await _fcm.getToken(vapidKey: 'YOUR_WEB_VAPID_KEY_HERE');
+        } else {
+          token = await _fcm.getToken();
+        }
+        
         if (token != null) {
           _saveTokenToFirestore(token);
         }
